@@ -1,58 +1,31 @@
 import 'package:flutter/material.dart';
 
-class MovieMainScreen extends StatefulWidget {
+import 'search_bar.dart';
+
+class MovieMainScreen extends StatelessWidget {
   const MovieMainScreen({super.key});
 
   @override
-  State<MovieMainScreen> createState() => _MovieMainScreenState();
-}
-
-class _MovieMainScreenState extends State<MovieMainScreen> {
-  TextEditingController searchController = TextEditingController();
-  bool showClearIcon = false;
-
-  @override
-  void dispose() {
-    super.dispose();
-    searchController.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    debugPrint('movie screen');
     return Scaffold(
         appBar: AppBar(
           title: const Text('TMDB Movie'),
         ),
         body: Column(
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(16),
-              child: SearchBar(
-                padding: const MaterialStatePropertyAll<EdgeInsets>(
-                  EdgeInsets.symmetric(horizontal: 16),
+              child: CustomSearchBar(),
+            ),
+            Expanded(
+              child: ListView.custom(
+                childrenDelegate: SliverChildBuilderDelegate(
+                  childCount: 0,
+                  (context, index) {
+                    return null;
+                  },
                 ),
-                leading: const Icon(Icons.search),
-                controller: searchController,
-                trailing: [
-                  showClearIcon
-                      ? IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.close),
-                        )
-                      : const Text(''),
-                ],
-                onChanged: (value) {
-                  print('value: $value');
-                  if (value.isNotEmpty) {
-                    setState(() {
-                      showClearIcon = true;
-                    });
-                  }else {
-                    setState(() {
-                      showClearIcon = false;
-                    });
-                  }
-                },
               ),
             ),
           ],
